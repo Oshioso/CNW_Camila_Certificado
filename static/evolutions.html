@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Evolução</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        #pokemonDetails {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 300px;
+            margin: 10px auto;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #pokemonDetails h2 {
+            font-size: 2rem;
+            color: #555;
+            margin: 0;
+        }
+
+        #pokemonDetails img {
+            width: 200px; 
+        }
+
+        #evolutionChain {
+            margin: 10px auto;
+            max-width: 900px;
+            display: flex;
+            justify-content:space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        #evolutionChain div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #evolutionChain h3 {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #333;
+        }
+
+        #evolutionChain img {
+            width: 180px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            #evolutionChain {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Estilo do botão */
+        #backButton {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin: 20px auto;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+
+        #backButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalhes da Evolução do Pokémon</h1>
+    <div id="pokemonDetails"></div>
+    <div id="evolutionChain"></div>
+
+    <!-- Botão para voltar ao index.html -->
+    <a id="backButton" href="index.html">Voltar para o Início</a>
+
+    <script>
+        // Acessa os dados do Pokémon e da evolução armazenados no localStorage
+        const selectedPokemon = JSON.parse(localStorage.getItem("selectedPokemon"));
+        const evolutions = JSON.parse(localStorage.getItem("evolutions"));
+        console.log(selectedPokemon)
+
+        // Exibe as informações do Pokémon
+        const pokemonDetails = document.getElementById("pokemonDetails");
+        const pokeName = selectedPokemon.poke.name.charAt(0).toUpperCase() + selectedPokemon.poke.name.slice(1);
+        pokemonDetails.innerHTML = ` 
+            <h2>${pokeName} (#${selectedPokemon.poke.id})</h2>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selectedPokemon.poke.id}.png" alt="${pokeName}">
+        `;
+
+        // Exibe a cadeia de evolução
+        const evolutionChain = document.getElementById("evolutionChain");
+        evolutions.forEach((evolution, index) => {
+            const evolutionName = evolution.name.charAt(0).toUpperCase() + evolution.name.slice(1);
+            evolutionChain.innerHTML += `
+                <div>
+                    <h3>Forma ${index + 1}: ${evolutionName}</h3>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evolution.id}.png" alt="${evolutionName}">
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
